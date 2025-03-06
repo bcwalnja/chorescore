@@ -1,5 +1,6 @@
 # [Scoreboard Project](https://bcwalnja.github.io/chorescore/)
 
+[View the readme on Github](https://github.com/bcwalnja/chorescore)
 This project was created to help my kids with their chores. Inspired by Leonard Sachs' book, which discusses how well boys work in teams to earn points, I implemented a team competition strategy. This approach has led to massive improvements in my kids doing chores quickly and well, even when the tasks are not their favorite or they are not as skilled at them.
 
 ## How It Works
