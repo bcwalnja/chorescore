@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chore Score</title>
+  <style>
+  body {
+    background-color: #121212;
+    color: #ffffff;
+  }
+
+  .timer {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #333;
+    width: 100px;
+    text-align: center;
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  .player-name {
+    width: 175px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  .button {
+    margin: 5px;
+    padding: 5px 10px;
+    border: 1px solid #333;
+    background-color: #333;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .button:hover {
+    background-color: #444;
+  }
+
+  input[type="number"], input[type="text"] {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #333;
+  }
+
+  * {
+    font-size: 1.5rem;
+  }
+  </style>
+</head>
+<body>
+  <div>
+    <input type="number" id="initialValue" placeholder="Enter seconds">
+  </div>
+  <h1>Chore Score</h1>
+  <button class="button" onclick="startAllTimers()">Start All Timers</button>
+  <div>
+    <div id="team-1-wrapper" class="team-1-wrapper">
+      <input id="team-1-color" type="text" placeholder="Team 1" class="timer player-name" oninput="setBorderColor('team-1-wrapper', this.value)">
+      <input type="text" id="timer1" class="timer" readonly>
+      <button class="button" onclick="startTimer('timer1')">Start</button>
+      <button class="button" onclick="stopTimer('timer1')">Stop</button>
+      <input type="number" class="timer" id="penalty1" step="1">
+      <input type="text" id="total1" class="timer" readonly>
+    </div>
+    <div id="team-2-wrapper" class="team-2-wrapper">
+      <input id="team-2-color" type="text" placeholder="Team 2" class="timer player-name" oninput="setBorderColor('team-2-wrapper', this.value)">
+      <input type="text" id="timer2" class="timer" readonly>
+      <button class="button" onclick="startTimer('timer2')">Start</button>
+      <button class="button" onclick="stopTimer('timer2')">Stop</button>
+      <input type="number" class="timer" id="penalty2" step="1">
+      <input type="text" id="total2" class="timer" readonly>
+    </div>
+    <button class="button" onclick="saveScoreToCache()">Game Over</button>
+    <button class="button" onclick="startTournament()">Start Tournament</button>
+    <button class="button" onclick="endTournament()">End Tournament</button>
+  </div>
+  <div>
+    <div id="winner-announcement" style="display: none;">
+      <h2 id="winner-text"></h2>
+    </div>
+  </div>
+</body>
+</html>
+<script src="script.js"></script>
