@@ -29,7 +29,7 @@ Stops the timer for the team.
 The score is calculated based on the minutes taken (rounded down) plus any penalties. Penalties are given for unsportsmanlike conduct while the timer is running. Once the timer is stopped, penalty points are given for anything about the chores that was missed. The team with the lowest score wins.
 
 ## Team Name
-Teams can be named using CSS named colors (e.g., `Red`, `DarkBlue`, `Orchid`).
+If you name the teams using a value from CSS named colors (e.g., `Red`, `DarkBlue`, `Orchid`), the back color of the team block will become that color.
 
 ## Game Over
 Clicking the game over button saves the current score state to the browser cache.
