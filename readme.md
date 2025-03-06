@@ -5,8 +5,8 @@ This project was created to help my kids with their chores. Inspired by Leonard 
 ## How It Works
 
 - Kids are divided into teams.
-- Each team earns points for completing chores.
-- Points are awarded based on the quality and speed of the work.
+- The team who gets their chores done the fastest and best wins.
+- I hand out prizes to the winning team.
 
 ## Benefits
 
@@ -26,7 +26,7 @@ Starts the timer for the team.
 Stops the timer for the team.
 
 ## How Score is Calculated
-The score is calculated based on the minutes taken (rounded down) plus any penalties. The team with the lowest score wins.
+The score is calculated based on the minutes taken (rounded down) plus any penalties. Penalties are given for unsportsmanlike conduct while the timer is running. Once the timer is stopped, penalty points are given for anything about the chores that was missed. The team with the lowest score wins.
 
 ## Team Name
 Teams can be named using CSS named colors (e.g., `Red`, `DarkBlue`, `Orchid`).
