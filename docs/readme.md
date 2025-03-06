@@ -8,11 +8,7 @@ This project was created to help my kids with their chores. Inspired by Leonard 
 - The team who gets their chores done the fastest and best wins.
 - I hand out prizes to the winning team.
 
-## Benefits
-
-- Encourages teamwork.
-- Motivates kids to complete chores.
-- Improves the quality of work.
+![Scoreboard Screenshot](screenshot.png)
 
 ## Timer Buttons
 
