@@ -54,6 +54,10 @@
     bottom: 0;
     font-size: 0.7rem;
   }
+
+  td {
+    padding: 0 1rem;
+  }
   </style>
 </head>
 <body>
@@ -87,6 +91,22 @@
     <div id="winner-announcement" style="display: none;">
       <h2 id="winner-text"></h2>
     </div>
+  </div>
+  <div id="leaderboard">
+    <h2>Leaderboard</h2>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Day</th>
+          <th>Team 1</th>
+          <th>Team 2</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <!-- Leaderboard data will be inserted here -->
+      </tbody>
+    </table>
   </div>
 </body>
 </html>

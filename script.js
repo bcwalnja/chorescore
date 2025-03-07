@@ -99,7 +99,74 @@ function saveScoreToCache() {
   games.push(gameData);
   localStorage.setItem('games', JSON.stringify(games));
   console.log(`Saved game data to cache:`, gameData);
+  console.log('refreshing leaderboard data...');
+  getLeaderboardData();
 }
+
+let leaderboardData = [];
+
+function getLeaderboardData() {
+  console.log('Fetching leaderboard data...');
+  const games = [];
+  const allGames = JSON.parse(localStorage.getItem('games'));
+  if (!allGames) {
+    console.log('No games found');
+    return;
+  }
+  const tournamentStartTime = localStorage.getItem('tournamentStartTime');
+  allGames.forEach(game => {
+    if (game.timestamp > tournamentStartTime) {
+      games.push(game);
+    }
+  });
+
+  games.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  console.log(`Found ${games.length} games after tournament start time`);
+  
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  let data = games.map(game => {
+    return {
+      team1: game.scores[0].teamColor,
+      team2: game.scores[1].teamColor,
+      min1: Math.floor(game.scores[0].seconds / 60),
+      min2: Math.floor(game.scores[1].seconds / 60),
+      penalty1: game.scores[0].penalty,
+      penalty2: game.scores[1].penalty,
+      dayOfWeek: daysOfWeek[new Date(game.timestamp).getDay()]
+    }
+  });
+  
+  console.log('Mapped game data:', data);
+  
+  leaderboardData = [];
+  data.forEach(score => {
+    leaderboardData.push(score);
+  });
+  
+  console.log('Leaderboard data updated:', leaderboardData);
+
+  const leaderboardBody = document.getElementById('leaderboard-body');
+  leaderboardBody.innerHTML = '';
+  leaderboardData.forEach((data, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${data.dayOfWeek}</td>
+      <td>${data.team1} ${data.min1} min +${data.penalty1}</td>
+      <td>${data.team2} ${data.min2} min +${data.penalty2}</td>
+    `;
+    if ((data.min1 + data.penalty1) !== (data.min2 + data.penalty2)) {
+      const lowerScoreTeamColor = (data.min1 + data.penalty1) < (data.min2 + data.penalty2) ? data.team1 : data.team2;
+      row.style.backgroundColor = lowerScoreTeamColor;
+    }
+    leaderboardBody.appendChild(row);
+  });
+}
+
+// call the function so that the leaderboardData is populated
+getLeaderboardData();
+
 function startTournament() {
   const tournamentEndTime = localStorage.getItem('tournamentEndTime');
   if (tournamentEndTime && new Date(tournamentEndTime) > new Date()) {
@@ -141,152 +208,5 @@ function endTournament() {
 }
 
 const allPossibleNamedColors = [
-  'AliceBlue',
-   'AntiqueWhite',
-   'Aqua',
-   'Aquamarine',
-   'Azure',
-   'Beige',
-   'Bisque',
-   'Black',
-   'BlanchedAlmond',
-   'Blue',
-  'BlueViolet',
-   'Brown',
-   'BurlyWood',
-   'CadetBlue',
-   'Chartreuse',
-   'Chocolate',
-   'Coral',
-   'CornflowerBlue',
-   'Cornsilk',
-  'Crimson',
-   'Cyan',
-   'DarkBlue',
-   'DarkCyan',
-   'DarkGoldenRod',
-   'DarkGray',
-   'DarkGrey',
-   'DarkGreen',
-   'DarkKhaki',
-  'DarkMagenta',
-   'DarkOliveGreen',
-   'DarkOrange',
-   'DarkOrchid',
-   'DarkRed',
-   'DarkSalmon',
-   'DarkSeaGreen',
-   'DarkSlateBlue',
-  'DarkSlateGray',
-   'DarkSlateGrey',
-   'DarkTurquoise',
-   'DarkViolet',
-  'DeepPink',
-   'DeepSkyBlue',
-   'DimGray',
-   'DimGrey',
-   'DodgerBlue',
-   'FireBrick',
-   'FloralWhite',
-   'ForestGreen',
-   'Fuchsia',
-  'Gainsboro',
-   'GhostWhite',
-   'Gold',
-   'GoldenRod',
-   'Gray',
-   'Grey',
-   'Green',
-   'GreenYellow',
-   'HoneyDew',
-   'HotPink',
-  'IndianRed',
-   'Indigo',
-   'Ivory',
-   'Khaki',
-   'Lavender',
-   'LavenderBlush',
-   'LawnGreen',
-   'LemonChiffon',
-   'LightBlue',
-  'LightCoral',
-   'LightCyan',
-   'LightGoldenRodYellow',
-   'LightGray',
-   'LightGrey',
-   'LightGreen',
-   'LightPink',
-   'LightSalmon',
-  'LightSeaGreen',
-   'LightSkyBlue',
-   'LightSlateGray',
-   'LightSlateGrey',
-   'LightSteelBlue',
-   'LightYellow',
-   'Lime',
-   'LimeGreen',
-  'Linen',
-   'Magenta',
-   'Maroon',
-   'MediumAquaMarine',
-   'MediumBlue',
-   'MediumOrchid',
-   'MediumPurple',
-   'MediumSeaGreen',
-  'MediumSlateBlue',
-   'MediumSpringGreen',
-   'MediumTurquoise',
-   'MediumVioletRed',
-   'MidnightBlue',
-   'MintCream',
-   'MistyRose',
-  'Moccasin',
-   'NavajoWhite',
-   'Navy',
-   'OldLace',
-   'Olive',
-   'OliveDrab',
-   'Orange',
-   'OrangeRed',
-   'Orchid',
-   'PaleGoldenRod',
-  'PaleGreen',
-   'PaleTurquoise',
-   'PaleVioletRed',
-   'PapayaWhip',
-   'PeachPuff',
-   'Peru',
-   'Pink',
-   'Plum',
-   'PowderBlue',
-   'Purple',
-  'RebeccaPurple',
-   'Red',
-   'RosyBrown',
-   'RoyalBlue',
-   'SaddleBrown',
-   'Salmon',
-   'SandyBrown',
-   'SeaGreen',
-   'SeaShell',
-   'Sienna',
-  'Silver',
-   'SkyBlue',
-   'SlateBlue',
-   'SlateGray',
-   'SlateGrey',
-   'Snow',
-   'SpringGreen',
-   'SteelBlue',
-   'Tan',
-   'Teal',
-   'Thistle',
-  'Tomato',
-   'Turquoise',
-   'Violet',
-   'Wheat',
-   'White',
-   'WhiteSmoke',
-   'Yellow',
-   'YellowGreen'
+  'AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue', 'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenRod', 'DarkGray', 'DarkGrey', 'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'DarkOrange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DarkSlateBlue', 'DarkSlateGray', 'DarkSlateGrey', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray', 'DimGrey', 'DodgerBlue', 'FireBrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'GoldenRod', 'Gray', 'Grey', 'Green', 'GreenYellow', 'HoneyDew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender', 'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenRodYellow', 'LightGray', 'LightGrey', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateGray', 'LightSlateGrey', 'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquaMarine', 'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen', 'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite', 'Navy', 'OldLace', 'Olive', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenRod', 'PaleGreen', 'PaleTurquoise', 'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'RebeccaPurple', 'Red', 'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver', 'SkyBlue', 'SlateBlue', 'SlateGray', 'SlateGrey', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato', 'Turquoise', 'Violet', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen'
 ];
