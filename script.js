@@ -86,6 +86,15 @@ function setBorderColor(wrapperId, color) {
 }
 
 function saveScoreToCache() {
+  // a touranament is in progress if there's a tournamentStartTime in localStorage 
+  // and there's no tournamentEndTime 
+  const tournamentStartTime = localStorage.getItem('tournamentStartTime');
+  const tournamentEndTime = localStorage.getItem('tournamentEndTime');
+  if (!tournamentStartTime || (tournamentEndTime && new Date(tournamentEndTime) < new Date())) {
+    if (confirm('There is no tournament in progress. Do you want to start a new tournament?')) {
+      startTournament();
+    }
+  }
   let games = JSON.parse(localStorage.getItem('games')) || [];
   const timestamp = new Date().toISOString();
   const gameData = {
@@ -177,7 +186,9 @@ function startTournament() {
     console.log('Tournament is already started');
     return;
   }
-  localStorage.setItem('tournamentStartTime', new Date().toISOString());
+  const startTime = new Date(new Date().getTime() - 60000).toISOString();
+  localStorage.setItem('tournamentStartTime', startTime);
+  localStorage.removeItem('tournamentEndTime');
   console.log('Tournament started');
 }
 
