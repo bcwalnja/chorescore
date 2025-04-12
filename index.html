@@ -70,6 +70,8 @@
     <div id="team-1-wrapper" class="team-1-wrapper">
       <input id="team-1-color" type="text" placeholder="Team 1" class="timer player-name" oninput="setBorderColor('team-1-wrapper', this.value)">
       <input type="text" id="timer1" class="timer" readonly>
+      <button class="button" onclick="incrementTimer('timer1', 1)">+</button>
+      <button class="button" onclick="incrementTimer('timer1', -1)">-</button>
       <button class="button" onclick="startTimer('timer1')">Start</button>
       <button class="button" onclick="stopTimer('timer1')">Stop</button>
       <input type="number" class="timer" id="penalty1" step="1">
@@ -78,6 +80,8 @@
     <div id="team-2-wrapper" class="team-2-wrapper">
       <input id="team-2-color" type="text" placeholder="Team 2" class="timer player-name" oninput="setBorderColor('team-2-wrapper', this.value)">
       <input type="text" id="timer2" class="timer" readonly>
+      <button class="button" onclick="incrementTimer('timer2', 1)">+</button>
+      <button class="button" onclick="incrementTimer('timer2', -1)">-</button>
       <button class="button" onclick="startTimer('timer2')">Start</button>
       <button class="button" onclick="stopTimer('timer2')">Stop</button>
       <input type="number" class="timer" id="penalty2" step="1">
